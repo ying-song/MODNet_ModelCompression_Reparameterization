@@ -1,0 +1,753 @@
+{% block content %}
+<div class="profile-container">
+    <!-- 顶部欢迎区域 -->
+    <div class="welcome-card">
+        {% if user.avatar %}
+            <div class="avatar-container">
+                <img src="{{ user.avatar.url }}"
+                     alt="用户头像"
+                     class="user-avatar"
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOWNhM2FmIiBkeT0iLjNlbSI+QXZhdGFyIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='; this.style.objectFit='contain';">
+            </div>
+        {% else %}
+            <div class="avatar-container">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}"
+                         alt="用户头像"
+                         class="user-avatar"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOWNhM2FmIiBkeT0iLjNlbSI+QXZhdGFyIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4='; this.style.objectFit='contain';">
+                {% else %}
+                    <div class="default-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <h1 class="welcome-title">欢迎回来，<span class="username-highlight">{{ user.username }}</span>！</h1>
+        <p class="welcome-subtitle">很高兴再次见到您</p>
+
+        <!-- 上次登录和加入时间信息 -->
+        <div class="user-info-row">
+            <div class="info-box">
+                <span class="info-label">上次登录：</span>
+                <span class="info-value">{{ user.last_login|date:"Y年m月d日 H:i"|default:"首次登录" }}</span>
+            </div>
+            <div class="info-box">
+                <span class="info-label">加入时间：</span>
+                <span class="info-value">{{ user.date_joined|date:"Y年m月d日 H:i" }}</span>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 90px; margin-top: 1rem;">
+            <a href="{% url 'users:edit_profile' %}" class="edit-btn" style="margin: 0;">
+                编辑个人资料
+            </a>
+            <a href="{% url 'users:logout' %}" class="edit-btn" style="margin: 0;">
+                退出登录
+            </a>
+        </div>
+    </div>
+
+    <!-- 账户信息区域 -->
+    <div class="account-info-section">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-id-card"></i>
+            </div>
+            <div>
+                <h2 class="section-title">账户信息</h2>
+                <p class="section-subtitle">您的个人账户详细信息</p>
+            </div>
+        </div>
+
+        <div class="info-cards">
+            <!-- 基本信息 -->
+            <div class="info-card basic-info">
+                <h3 class="card-title">基本信息</h3>
+                <div class="info-item">
+                    <span class="info-label">用户名</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">用户ID</span>
+                    <span class="info-value">#{{ user.id|stringformat:"06d" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">注册时间</span>
+                    <span class="info-value">{{ user.date_joined|date:"Y年m月d日 H:i" }}</span>
+                </div>
+            </div>
+
+            <!-- 安全信息 -->
+            <div class="info-card security-info">
+                <h3 class="card-title">安全信息</h3>
+                <div class="info-item">
+                    <span class="info-label">邮箱地址</span>
+                    <span class="info-value">{{ user.email|default:"未设置" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">账户状态</span>
+                    <span class="info-value">
+                        <span class="status-badge active">已验证</span>
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">账户类型</span>
+                    <span class="info-value">标准用户</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">{{ processed_images }}</div>
+                    <div class="stat-label">已处理图片</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">{{ matting_count }}</div>
+                    <div class="stat-label">历史记录</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">{{ account_days }}</div>
+                    <div class="stat-label">账户天数</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 快捷操作 -->
+        <div class="quick-actions-section">
+            <h3 class="section-title">快捷操作</h3>
+            <div class="action-cards">
+                <a href="{% url 'uploads:upload' %}" class="action-card">
+                    <div class="action-icon blue">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="action-text">上传图片</div>
+                </a>
+                <a href="{% url 'users:history' %}" class="action-card">
+                    <div class="action-icon green">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="action-text">查看历史</div>
+                </a>
+                <a href="{% url 'users:message_list' %}" class="action-card">
+                    <div class="action-icon red">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="action-text">消息</div>
+                </a>
+                <a href="{% url 'users:contact_admin' %}" class="action-card">
+                    <div class="action-icon orange">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="action-text">联系管理员</div>
+                </a>
+                <a href="{% url 'users:system_notices' %}" class="action-card">
+                    <div class="action-icon cyan">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="action-text">系统公告</div>
+                </a>
+                <a href="{% url 'users:edit_profile' %}" class="action-card">
+                    <div class="action-icon purple">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div class="action-text">账户设置</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    /* 欢迎卡片 */
+    .welcome-card {
+        background: #f8fafc; /* 更换为浅色背景 */
+        border-radius: 24px;
+        padding: 3rem;
+        margin-bottom: 2.5rem;
+        color: #1a1f36;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    }
+
+    .welcome-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #4a6cf7, #6b8aff, #8aa9ff);
+    }
+
+    .avatar-container {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 10px 30px rgba(74, 108, 247, 0.2);
+    }
+
+    .user-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .default-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: white;
+        box-shadow: 0 10px 30px rgba(74, 108, 247, 0.2);
+    }
+
+    .avatar-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 4rem;
+        color: white;
+        box-shadow: 0 10px 30px rgba(74, 108, 247, 0.2);
+    }
+
+    .welcome-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.2;
+        text-align: center;
+    }
+
+    .username-highlight {
+        color: #4a6cf7;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.3rem;
+        color: #6b7280;
+        margin: 0 0 1.5rem 0;
+        text-align: center;
+    }
+
+    /* 用户信息行 */
+    .user-info-row {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .info-box {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        border: 2px solid #e2e8f0;
+        min-width: 250px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-label {
+        color: #4a5568;
+        font-weight: 500;
+        margin-right: 0.5rem;
+    }
+
+    .info-value {
+        color: #1a1f36;
+        font-weight: 600;
+    }
+
+    .edit-btn {
+        display: block;
+        width: 200px;
+        margin: 0 auto;
+        background: #f1f5f9;
+        color: #1a1f36;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .edit-btn:hover {
+        background: #e2e8f0;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 账户信息区域 */
+    .account-info-section {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 3px solid #f0f4ff;
+    }
+
+    .section-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: #1a1f36;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .section-subtitle {
+        color: #6b7280;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    /* 信息卡片 */
+    .info-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .info-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        color: #1a1f36;
+        font-weight: 600;
+        margin: 0 0 1.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .card-title i {
+        color: #4a6cf7;
+    }
+
+    /* 信息项 */
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.2rem;
+        background: white;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        margin-bottom: 1rem;
+    }
+
+    .info-item:last-child {
+        margin-bottom: 0;
+    }
+
+    /* 统一所有标签的宽度，确保左右两侧对齐 */
+    .info-item .info-label {
+        min-width: 140px;  /* 统一设置为140px */
+        width: 140px;
+        color: #4a5568;
+        font-weight: 500;
+        text-align: left;
+        margin-right: 20px;  /* 添加右边距，增加标签和值之间的间距 */
+    }
+
+    .info-item .info-value {
+        color: #1a1f36;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-align: right;
+        flex: 1;  /* 让值占据剩余空间 */
+    }
+
+    /* 确保状态徽章的宽度不会影响对齐 */
+    .info-item .info-value .status-badge {
+        display: inline-block;
+        min-width: auto;
+        width: auto;
+    }
+
+    .info-item:hover {
+        border-color: #e2e8f0;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-label {
+        color: #4a5568;
+        font-weight: 500;
+        min-width: 120px;
+        flex-shrink: 0;
+    }
+
+    .info-value {
+        color: #1a1f36;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-align: right;
+        flex: 1;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .status-badge.active {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    /* 统计卡片 */
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 2px solid #f0f4ff;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .stat-icon.blue {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+    }
+
+    .stat-icon.green {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    }
+
+    .stat-icon.orange {
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    }
+
+    .stat-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #1a1f36;
+        line-height: 1;
+    }
+
+    .stat-label {
+        color: #64748b;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    /* 快捷操作区域 */
+    .quick-actions-section {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        color: #1a1f36;
+        font-weight: 600;
+        margin: 0 0 1.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .action-cards {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 1.5rem;
+    }
+
+    .action-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        background: white;
+        border: 2px solid #f0f4ff;
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .action-card:hover {
+        transform: translateY(-4px);
+        border-color: #4a6cf7;
+        box-shadow: 0 15px 30px rgba(74, 108, 247, 0.1);
+    }
+
+    .action-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+    }
+
+    .action-icon.blue {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+    }
+
+    .action-icon.green {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    }
+
+    .action-icon.purple {
+        background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    }
+
+    .action-icon.red {
+        background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+    }
+
+    .action-icon.orange {
+        background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+    }
+
+    .action-icon.cyan {
+        background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+    }
+
+    .action-text {
+        color: #1a1f36;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+        .profile-container {
+            padding: 0 1.5rem;
+        }
+
+        .welcome-card {
+            padding: 2rem;
+        }
+
+        .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            font-size: 3rem;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+        }
+
+        .user-info {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .info-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-cards {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .action-cards {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .profile-container {
+            padding: 0 1rem;
+        }
+
+        .welcome-card {
+            padding: 1.5rem;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+        }
+
+        .section-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .section-icon {
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+
+        .info-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .info-item .info-label {
+        min-width: auto;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.25rem;
+        }
+
+        .info-item .info-value {
+            width: 100%;
+            text-align: left;
+        }
+
+        .info-label {
+            min-width: auto;
+            maargin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            width: 100%;
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .profile-container {
+            padding: 0 0.75rem;
+        }
+
+        .welcome-card {
+            padding: 1rem;
+        }
+
+        .avatar-placeholder {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+        }
+
+        .welcome-title {
+            font-size: 1.5rem;
+        }
+
+        .edit-btn {
+            width: 100%;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .account-info-section {
+            padding: 2rem 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+        }
+
+        .action-card {
+            padding: 1.5rem 1rem;
+        }
+    }
+</style>
+{% endblock %}

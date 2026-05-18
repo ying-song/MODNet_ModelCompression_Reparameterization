@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}联系管理员{% endblock %}
+
+{% block content %}
+<div class="welcome-card">
+    <h1 class="welcome-title"><i class="fas fa-comments"></i> 联系管理员</h1>
+    <p class="welcome-subtitle">有问题或建议？请给我们留言，我们会尽快回复您！</p>
+
+    <form method="post" style="max-width: 600px; margin: 0 auto; text-align: left;">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1a1f36;">主题</label>
+            {{ form.subject }}
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1a1f36;">详细内容</label>
+            {{ form.content }}
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1a1f36;">相关错误日志（可选）</label>
+            {{ form.related_error_log }}
+        </div>
+
+        <button type="submit" class="btn btn-login" style="width: 100%;">
+            <i class="fas fa-paper-plane"></i> 发送消息
+        </button>
+    </form>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{% url 'users:message_list' %}" style="color: #4a6cf7; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> 返回消息列表
+        </a>
+    </div>
+</div>
+{% endblock %}

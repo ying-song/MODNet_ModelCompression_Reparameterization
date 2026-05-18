@@ -1,0 +1,589 @@
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:epoch: 1/40, matte_loss: 1.001989336176352
+INFO:root:epoch: 1/40, matte_loss: 0.4987574497407133
+INFO:root:epoch: 1/40, matte_loss: 0.6402124606750228
+INFO:root:------save model------1  1.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 40
+INFO:root:epoch: 1/40, matte_loss: 0.8975384062842319
+INFO:root:epoch: 1/40, matte_loss: 0.5234267609684091
+INFO:root:epoch: 1/40, matte_loss: 0.6769113070086429
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/40, matte_loss: 0.7115872443506592
+INFO:root:epoch: 2/40, matte_loss: 0.3142906490125154
+INFO:root:epoch: 2/40, matte_loss: 0.35598467564896535
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/40, matte_loss: 0.5689723509314814
+INFO:root:epoch: 3/40, matte_loss: 0.2523790970444679
+INFO:root:epoch: 3/40, matte_loss: 0.27802268533330216
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/40, matte_loss: 0.42553254383567135
+INFO:root:epoch: 4/40, matte_loss: 0.2088336454410302
+INFO:root:epoch: 4/40, matte_loss: 0.2190936972436152
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/40, matte_loss: 0.36844195606873226
+INFO:root:epoch: 5/40, matte_loss: 0.18161944535217786
+INFO:root:epoch: 5/40, matte_loss: 0.18359851131313726
+INFO:root:------save model------5  5.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 20
+INFO:root:epoch: 1/20, matte_loss: 0.9260186105966568
+INFO:root:epoch: 1/20, matte_loss: 0.5234902799129486
+INFO:root:epoch: 1/20, matte_loss: 0.678585664222115
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/20, matte_loss: 0.7923197769805005
+INFO:root:epoch: 2/20, matte_loss: 0.32398178271557154
+INFO:root:epoch: 2/20, matte_loss: 0.3754712170676181
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/20, matte_loss: 0.46453112143238906
+INFO:root:epoch: 3/20, matte_loss: 0.2378358111569756
+INFO:root:epoch: 3/20, matte_loss: 0.2517235522207461
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/20, matte_loss: 0.3776782749122695
+INFO:root:epoch: 4/20, matte_loss: 0.20374883789765208
+INFO:root:epoch: 4/20, matte_loss: 0.2085793571252572
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/20, matte_loss: 0.27686363353246923
+INFO:root:epoch: 5/20, matte_loss: 0.17083825033746267
+INFO:root:epoch: 5/20, matte_loss: 0.16578562518483714
+INFO:root:------save model------5  5.pth
+INFO:root:epoch: 6/20, matte_loss: 0.21204680547510324
+INFO:root:epoch: 6/20, matte_loss: 0.15779387539154605
+INFO:root:epoch: 6/20, matte_loss: 0.15086303102342705
+INFO:root:------save model------6  6.pth
+INFO:root:epoch: 7/20, matte_loss: 0.16411730235344485
+INFO:root:epoch: 7/20, matte_loss: 0.15019240112681137
+INFO:root:epoch: 7/20, matte_loss: 0.13698105376801992
+INFO:root:------save model------7  7.pth
+INFO:root:epoch: 8/20, matte_loss: 0.1352973616387891
+INFO:root:epoch: 8/20, matte_loss: 0.14185468225102676
+INFO:root:epoch: 8/20, matte_loss: 0.1252990300325971
+INFO:root:------save model------8  8.pth
+INFO:root:epoch: 9/20, matte_loss: 0.14348564632727126
+INFO:root:epoch: 9/20, matte_loss: 0.1396723177872206
+INFO:root:epoch: 9/20, matte_loss: 0.12426929979732163
+INFO:root:------save model------9  9.pth
+INFO:root:epoch: 10/20, matte_loss: 0.1290427992414487
+INFO:root:epoch: 10/20, matte_loss: 0.1364016021160703
+INFO:root:epoch: 10/20, matte_loss: 0.12118455826451904
+INFO:root:------save model------10  10.pth
+INFO:root:epoch: 11/20, matte_loss: 0.12814908379100656
+INFO:root:epoch: 11/20, matte_loss: 0.13619570826229296
+INFO:root:epoch: 11/20, matte_loss: 0.1211487635185844
+INFO:root:------save model------11  11.pth
+INFO:root:epoch: 12/20, matte_loss: 0.1269552168975535
+INFO:root:epoch: 12/20, matte_loss: 0.1349291150507174
+INFO:root:epoch: 12/20, matte_loss: 0.11825087431230043
+INFO:root:------save model------12  12.pth
+INFO:root:epoch: 13/20, matte_loss: 0.11841329754526286
+INFO:root:epoch: 13/20, matte_loss: 0.1346825602415361
+INFO:root:epoch: 13/20, matte_loss: 0.11788143099922883
+INFO:root:------save model------13  13.pth
+INFO:root:epoch: 14/20, matte_loss: 0.11896549282889617
+INFO:root:epoch: 14/20, matte_loss: 0.1344626645900701
+INFO:root:epoch: 14/20, matte_loss: 0.11825126527171385
+INFO:root:------save model------14  14.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 16,lr :0.01, epochs: 20
+INFO:root:epoch: 1/20, matte_loss: 0.8337273495271802
+INFO:root:epoch: 1/20, matte_loss: 0.5465527633205056
+INFO:root:epoch: 1/20, matte_loss: 0.7310253223404288
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/20, matte_loss: 1.2365233497694135
+INFO:root:epoch: 2/20, matte_loss: 0.39982112776488066
+INFO:root:epoch: 2/20, matte_loss: 0.48902399092912674
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/20, matte_loss: 0.7035822411999106
+INFO:root:epoch: 3/20, matte_loss: 0.29622882697731256
+INFO:root:epoch: 3/20, matte_loss: 0.34086937876418233
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/20, matte_loss: 0.5148717453703284
+INFO:root:epoch: 4/20, matte_loss: 0.24036660930141807
+INFO:root:epoch: 4/20, matte_loss: 0.2661477350629866
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/20, matte_loss: 0.3870769754284993
+INFO:root:epoch: 5/20, matte_loss: 0.20871720323339105
+INFO:root:epoch: 5/20, matte_loss: 0.21951382467523217
+INFO:root:------save model------5  5.pth
+INFO:root:epoch: 6/20, matte_loss: 0.296398310107179
+INFO:root:epoch: 6/20, matte_loss: 0.18332795007154346
+INFO:root:epoch: 6/20, matte_loss: 0.19357377267442644
+INFO:root:------save model------6  6.pth
+INFO:root:epoch: 7/20, matte_loss: 0.20461677928688005
+INFO:root:epoch: 7/20, matte_loss: 0.17298414837568998
+INFO:root:epoch: 7/20, matte_loss: 0.16568868095055223
+INFO:root:------save model------7  7.pth
+INFO:root:epoch: 8/20, matte_loss: 0.23636351095046848
+INFO:root:epoch: 8/20, matte_loss: 0.16801201086491346
+INFO:root:epoch: 8/20, matte_loss: 0.16631879680790007
+INFO:root:------save model------8  8.pth
+INFO:root:epoch: 9/20, matte_loss: 0.2361179238941986
+INFO:root:epoch: 9/20, matte_loss: 0.1652050237171352
+INFO:root:epoch: 9/20, matte_loss: 0.16061381297186017
+INFO:root:------save model------9  9.pth
+INFO:root:epoch: 10/20, matte_loss: 0.2199379854137078
+INFO:root:epoch: 10/20, matte_loss: 0.17119026323780417
+INFO:root:epoch: 10/20, matte_loss: 0.1637534205801785
+INFO:root:------save model------10  10.pth
+INFO:root:epoch: 11/20, matte_loss: 0.22420520440209657
+INFO:root:epoch: 11/20, matte_loss: 0.16039194795303047
+INFO:root:epoch: 11/20, matte_loss: 0.15312263672240078
+INFO:root:------save model------11  11.pth
+INFO:root:epoch: 12/20, matte_loss: 0.18915472735534422
+INFO:root:epoch: 12/20, matte_loss: 0.15925669786520302
+INFO:root:epoch: 12/20, matte_loss: 0.1519842471461743
+INFO:root:------save model------12  12.pth
+INFO:root:epoch: 13/20, matte_loss: 0.1857685148715973
+INFO:root:epoch: 13/20, matte_loss: 0.15831163548864424
+INFO:root:epoch: 13/20, matte_loss: 0.14902443788014352
+INFO:root:------save model------13  13.pth
+INFO:root:epoch: 14/20, matte_loss: 0.19678790785837919
+INFO:root:epoch: 14/20, matte_loss: 0.160116528859362
+INFO:root:epoch: 14/20, matte_loss: 0.15309673035517335
+INFO:root:------save model------14  14.pth
+INFO:root:epoch: 15/20, matte_loss: 0.1913662675069645
+INFO:root:epoch: 15/20, matte_loss: 0.15654422948136926
+INFO:root:epoch: 15/20, matte_loss: 0.14962804038077593
+INFO:root:------save model------15  15.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:batch_size: 4,lr :0.01, epochs: 20
+INFO:root:epoch: 1/20, matte_loss: 6.236306046962738
+INFO:root:epoch: 1/20, matte_loss: 0.4875405900478363
+INFO:root:epoch: 1/20, matte_loss: 0.6248406009674072
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/20, matte_loss: 5.74302774977684
+INFO:root:epoch: 2/20, matte_loss: 0.4128817082643509
+INFO:root:epoch: 2/20, matte_loss: 0.511965026140213
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/20, matte_loss: 4.706342434048652
+INFO:root:epoch: 3/20, matte_loss: 0.3537949621081352
+INFO:root:epoch: 3/20, matte_loss: 0.4266312416791916
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/20, matte_loss: 4.301135603368282
+INFO:root:epoch: 4/20, matte_loss: 0.32700260150432586
+INFO:root:epoch: 4/20, matte_loss: 0.38847305393218995
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/20, matte_loss: 3.9703506163954736
+INFO:root:epoch: 5/20, matte_loss: 0.2952713476419449
+INFO:root:epoch: 5/20, matte_loss: 0.3479061895608902
+INFO:root:------save model------5  5.pth
+INFO:root:epoch: 6/20, matte_loss: 3.261289298057556
+INFO:root:epoch: 6/20, matte_loss: 0.26909308940172194
+INFO:root:epoch: 6/20, matte_loss: 0.32466128331422806
+INFO:root:------save model------6  6.pth
+INFO:root:epoch: 7/20, matte_loss: 2.4648943696320056
+INFO:root:epoch: 7/20, matte_loss: 0.24552829760313033
+INFO:root:epoch: 7/20, matte_loss: 0.26887557804584505
+INFO:root:------save model------7  7.pth
+INFO:root:epoch: 8/20, matte_loss: 2.4379329446852207
+INFO:root:epoch: 8/20, matte_loss: 0.23080335989594458
+INFO:root:epoch: 8/20, matte_loss: 0.25300515311956406
+INFO:root:------save model------8  8.pth
+INFO:root:epoch: 9/20, matte_loss: 2.1568394570052623
+INFO:root:epoch: 9/20, matte_loss: 0.2207145993113518
+INFO:root:epoch: 9/20, matte_loss: 0.23609098279476165
+INFO:root:------save model------9  9.pth
+INFO:root:epoch: 10/20, matte_loss: 2.078112882718444
+INFO:root:epoch: 10/20, matte_loss: 0.2147731413245201
+INFO:root:epoch: 10/20, matte_loss: 0.22914620000123978
+INFO:root:------save model------10  10.pth
+INFO:root:epoch: 11/20, matte_loss: 1.9077270503640176
+INFO:root:epoch: 11/20, matte_loss: 0.20999468576908112
+INFO:root:epoch: 11/20, matte_loss: 0.2200818032026291
+INFO:root:------save model------11  11.pth
+INFO:root:epoch: 12/20, matte_loss: 1.8364955878406763
+INFO:root:epoch: 12/20, matte_loss: 0.20717883348464966
+INFO:root:epoch: 12/20, matte_loss: 0.21314616334438324
+INFO:root:------save model------12  12.pth
+INFO:root:epoch: 13/20, matte_loss: 1.7852446224689484
+INFO:root:epoch: 13/20, matte_loss: 0.20760465973615647
+INFO:root:epoch: 13/20, matte_loss: 0.2157701204419136
+INFO:root:------save model------13  13.pth
+INFO:root:epoch: 14/20, matte_loss: 1.7775560126900674
+INFO:root:epoch: 14/20, matte_loss: 0.20678725326061248
+INFO:root:epoch: 14/20, matte_loss: 0.21323667389154435
+INFO:root:------save model------14  14.pth
+INFO:root:epoch: 15/20, matte_loss: 1.718923633545637
+INFO:root:epoch: 15/20, matte_loss: 0.205478830575943
+INFO:root:epoch: 15/20, matte_loss: 0.21080534106492996
+INFO:root:------save model------15  15.pth
+INFO:root:epoch: 16/20, matte_loss: 1.7584299923926592
+INFO:root:epoch: 16/20, matte_loss: 0.20427408480644227
+INFO:root:epoch: 16/20, matte_loss: 0.20852709060907365
+INFO:root:------save model------16  16.pth
+INFO:root:epoch: 17/20, matte_loss: 1.6941959261596202
+INFO:root:epoch: 17/20, matte_loss: 0.20509264105558395
+INFO:root:epoch: 17/20, matte_loss: 0.21141166579723358
+INFO:root:------save model------17  17.pth
+INFO:root:epoch: 18/20, matte_loss: 1.8899192573949695
+INFO:root:epoch: 18/20, matte_loss: 0.20737306749820708
+INFO:root:epoch: 18/20, matte_loss: 0.2146084286570549
+INFO:root:------save model------18  18.pth
+INFO:root:epoch: 19/20, matte_loss: 1.6908593992888927
+INFO:root:epoch: 19/20, matte_loss: 0.20305586260557174
+INFO:root:epoch: 19/20, matte_loss: 0.20623461747169494
+INFO:root:------save model------19  19.pth
+INFO:root:epoch: 20/20, matte_loss: 1.8286789069324731
+INFO:root:epoch: 20/20, matte_loss: 0.20244715464115143
+INFO:root:epoch: 20/20, matte_loss: 0.20837128418684006
+INFO:root:------save model------20  20.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./model_save/original_model_YOLO_3w_prue_MBV2_finetinue/new_trimap_0034_lr1e-05.pth
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 32,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 32,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 64,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 64,lr :0.01, epochs: 40
+INFO:root:epoch: 1/40, matte_loss: 3.8428772316968187
+INFO:root:epoch: 1/40, matte_loss: 0.795009879355735
+INFO:root:epoch: 1/40, matte_loss: 1.1036889870116051
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/40, matte_loss: 3.5588169243741543
+INFO:root:epoch: 2/40, matte_loss: 0.7559520234452918
+INFO:root:epoch: 2/40, matte_loss: 0.9307466377603247
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/40, matte_loss: 3.4005526158403843
+INFO:root:epoch: 3/40, matte_loss: 0.710285650922897
+INFO:root:epoch: 3/40, matte_loss: 0.8566802042595884
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/40, matte_loss: 3.3982225253861
+INFO:root:epoch: 4/40, matte_loss: 0.6443211702590294
+INFO:root:epoch: 4/40, matte_loss: 0.7978743771289257
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/40, matte_loss: 3.1671488662349416
+INFO:root:epoch: 5/40, matte_loss: 0.5875985495587612
+INFO:root:epoch: 5/40, matte_loss: 0.7435880544337821
+INFO:root:------save model------5  5.pth
+INFO:root:epoch: 6/40, matte_loss: 2.9968630807830934
+INFO:root:epoch: 6/40, matte_loss: 0.5458676555055253
+INFO:root:epoch: 6/40, matte_loss: 0.6968892698592328
+INFO:root:------save model------6  6.pth
+INFO:root:epoch: 7/40, matte_loss: 2.9711905118632824
+INFO:root:epoch: 7/40, matte_loss: 0.5277553555813241
+INFO:root:epoch: 7/40, matte_loss: 0.6750418543815613
+INFO:root:------save model------7  7.pth
+INFO:root:epoch: 8/40, matte_loss: 2.8441035944096584
+INFO:root:epoch: 8/40, matte_loss: 0.5088528584926686
+INFO:root:epoch: 8/40, matte_loss: 0.649627463614687
+INFO:root:------save model------8  8.pth
+INFO:root:epoch: 9/40, matte_loss: 2.7657089429966946
+INFO:root:epoch: 9/40, matte_loss: 0.4928893979559553
+INFO:root:epoch: 9/40, matte_loss: 0.6287724882998365
+INFO:root:------save model------9  9.pth
+INFO:root:epoch: 10/40, matte_loss: 2.6576614400490803
+INFO:root:epoch: 10/40, matte_loss: 0.4758305733508252
+INFO:root:epoch: 10/40, matte_loss: 0.6073506106721595
+INFO:root:------save model------10  10.pth
+INFO:root:epoch: 11/40, matte_loss: 2.560006462830178
+INFO:root:epoch: 11/40, matte_loss: 0.46499739555602376
+INFO:root:epoch: 11/40, matte_loss: 0.5896281447816403
+INFO:root:------save model------11  11.pth
+INFO:root:epoch: 12/40, matte_loss: 2.4678865344600474
+INFO:root:epoch: 12/40, matte_loss: 0.4606913759353313
+INFO:root:epoch: 12/40, matte_loss: 0.5795168914693467
+INFO:root:------save model------12  12.pth
+INFO:root:epoch: 13/40, matte_loss: 2.483042966812215
+INFO:root:epoch: 13/40, matte_loss: 0.4610417713510229
+INFO:root:epoch: 13/40, matte_loss: 0.5762956256562091
+INFO:root:------save model------13  13.pth
+INFO:root:epoch: 14/40, matte_loss: 2.43405566538902
+INFO:root:epoch: 14/40, matte_loss: 0.45563892290947283
+INFO:root:epoch: 14/40, matte_loss: 0.5711016654968262
+INFO:root:------save model------14  14.pth
+INFO:root:epoch: 15/40, matte_loss: 2.4511324145058366
+INFO:root:epoch: 15/40, matte_loss: 0.4567892551422119
+INFO:root:epoch: 15/40, matte_loss: 0.5717126080330382
+INFO:root:------save model------15  15.pth
+INFO:root:epoch: 16/40, matte_loss: 2.4058161866157612
+INFO:root:epoch: 16/40, matte_loss: 0.45525080282637415
+INFO:root:epoch: 16/40, matte_loss: 0.5659166365227801
+INFO:root:------save model------16  16.pth
+INFO:root:epoch: 17/40, matte_loss: 2.3972342011142285
+INFO:root:epoch: 17/40, matte_loss: 0.45544522430034395
+INFO:root:epoch: 17/40, matte_loss: 0.5668262014997766
+INFO:root:------save model------17  17.pth
+INFO:root:epoch: 18/40, matte_loss: 2.4117732296915766
+INFO:root:epoch: 18/40, matte_loss: 0.4530791183735462
+INFO:root:epoch: 18/40, matte_loss: 0.5641199851289709
+INFO:root:------save model------18  18.pth
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 64,lr :0.01, epochs: 40
+INFO:root:epoch: 1/40, matte_loss: 25.046786894040828
+INFO:root:epoch: 1/40, matte_loss: 0.6180910356263362
+INFO:root:epoch: 1/40, matte_loss: 0.7236250839126643
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/40, matte_loss: 16.852088985571474
+INFO:root:epoch: 2/40, matte_loss: 0.41631975725515563
+INFO:root:epoch: 2/40, matte_loss: 0.4538630299222495
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/40, matte_loss: 13.628202157996611
+INFO:root:epoch: 3/40, matte_loss: 0.3609151096740511
+INFO:root:epoch: 3/40, matte_loss: 0.3851094816539333
+INFO:root:------save model------3  3.pth
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 64,lr :0.01, epochs: 40
+INFO:root:epoch: 1/40, matte_loss: 49.97260161927175
+INFO:root:epoch: 1/40, matte_loss: 0.4829628745037016
+INFO:root:epoch: 1/40, matte_loss: 0.5338551172061261
+INFO:root:------save model------1  1.pth
+INFO:root:epoch: 2/40, matte_loss: 31.500105453783537
+INFO:root:epoch: 2/40, matte_loss: 0.32026351356048827
+INFO:root:epoch: 2/40, matte_loss: 0.32203798194090866
+INFO:root:------save model------2  2.pth
+INFO:root:epoch: 3/40, matte_loss: 25.522038924930765
+INFO:root:epoch: 3/40, matte_loss: 0.2786903964579317
+INFO:root:epoch: 3/40, matte_loss: 0.2734525294891044
+INFO:root:------save model------3  3.pth
+INFO:root:epoch: 4/40, matte_loss: 22.823404806207364
+INFO:root:epoch: 4/40, matte_loss: 0.24671135386339552
+INFO:root:epoch: 4/40, matte_loss: 0.23881963333849715
+INFO:root:------save model------4  4.pth
+INFO:root:epoch: 5/40, matte_loss: 20.400668136828447
+INFO:root:epoch: 5/40, matte_loss: 0.2256971362769053
+INFO:root:epoch: 5/40, matte_loss: 0.21689234374259156
+INFO:root:------save model------5  5.pth
+INFO:root:epoch: 6/40, matte_loss: 19.069375002694493
+INFO:root:epoch: 6/40, matte_loss: 0.21364220482242302
+INFO:root:epoch: 6/40, matte_loss: 0.2055146682109914
+INFO:root:------save model------6  6.pth
+INFO:root:epoch: 7/40, matte_loss: 17.64163323252991
+INFO:root:epoch: 7/40, matte_loss: 0.20377868457347176
+INFO:root:epoch: 7/40, matte_loss: 0.193068859017141
+INFO:root:------save model------7  7.pth
+INFO:root:epoch: 8/40, matte_loss: 16.60551265314719
+INFO:root:epoch: 8/40, matte_loss: 0.19578757913890424
+INFO:root:epoch: 8/40, matte_loss: 0.1839309360437471
+INFO:root:------save model------8  8.pth
+INFO:root:epoch: 9/40, matte_loss: 15.637071451297997
+INFO:root:epoch: 9/40, matte_loss: 0.19263931543333954
+INFO:root:epoch: 9/40, matte_loss: 0.17922018123122083
+INFO:root:------save model------9  9.pth
+INFO:root:epoch: 10/40, matte_loss: 15.286255087794812
+INFO:root:epoch: 10/40, matte_loss: 0.18617726485400482
+INFO:root:epoch: 10/40, matte_loss: 0.17459984504973203
+INFO:root:------save model------10  10.pth
+INFO:root:epoch: 11/40, matte_loss: 12.859119503944848
+INFO:root:epoch: 11/40, matte_loss: 0.17543653361155112
+INFO:root:epoch: 11/40, matte_loss: 0.1616783132611138
+INFO:root:------save model------11  11.pth
+INFO:root:epoch: 12/40, matte_loss: 11.412032129945976
+INFO:root:epoch: 12/40, matte_loss: 0.16728376682951
+INFO:root:epoch: 12/40, matte_loss: 0.14975644527340748
+INFO:root:------save model------12  12.pth
+INFO:root:epoch: 13/40, matte_loss: 10.923885821076222
+INFO:root:epoch: 13/40, matte_loss: 0.16498848543301828
+INFO:root:epoch: 13/40, matte_loss: 0.14627789692223792
+INFO:root:------save model------13  13.pth
+INFO:root:epoch: 14/40, matte_loss: 10.543722214326845
+INFO:root:epoch: 14/40, matte_loss: 0.1630159973801665
+INFO:root:epoch: 14/40, matte_loss: 0.14387570486245801
+INFO:root:------save model------14  14.pth
+INFO:root:epoch: 15/40, matte_loss: 10.196959055727183
+INFO:root:epoch: 15/40, matte_loss: 0.16140572343871537
+INFO:root:epoch: 15/40, matte_loss: 0.14173779493117045
+INFO:root:------save model------15  15.pth
+INFO:root:epoch: 16/40, matte_loss: 9.994729115174952
+INFO:root:epoch: 16/40, matte_loss: 0.15978781499270436
+INFO:root:epoch: 16/40, matte_loss: 0.13984860742481872
+INFO:root:------save model------16  16.pth
+INFO:root:epoch: 17/40, matte_loss: 9.84861840964338
+INFO:root:epoch: 17/40, matte_loss: 0.15876647511757938
+INFO:root:epoch: 17/40, matte_loss: 0.13862747313519616
+INFO:root:------save model------17  17.pth
+INFO:root:epoch: 18/40, matte_loss: 9.657423780628697
+INFO:root:epoch: 18/40, matte_loss: 0.15775596604609032
+INFO:root:epoch: 18/40, matte_loss: 0.13742908226973466
+INFO:root:------save model------18  18.pth
+INFO:root:epoch: 19/40, matte_loss: 9.454829589617997
+INFO:root:epoch: 19/40, matte_loss: 0.15664814115523784
+INFO:root:epoch: 19/40, matte_loss: 0.1361673399117625
+INFO:root:------save model------19  19.pth
+INFO:root:epoch: 20/40, matte_loss: 9.316280337627752
+INFO:root:epoch: 20/40, matte_loss: 0.1554971944432184
+INFO:root:epoch: 20/40, matte_loss: 0.1348699587473398
+INFO:root:------save model------20  20.pth
+INFO:root:epoch: 21/40, matte_loss: 9.168841728303176
+INFO:root:epoch: 21/40, matte_loss: 0.15466657747973256
+INFO:root:epoch: 21/40, matte_loss: 0.13376133743866844
+INFO:root:------save model------21  21.pth
+INFO:root:epoch: 22/40, matte_loss: 9.087697612091253
+INFO:root:epoch: 22/40, matte_loss: 0.15424679196423136
+INFO:root:epoch: 22/40, matte_loss: 0.13321438280292328
+INFO:root:------save model------22  22.pth
+INFO:root:epoch: 23/40, matte_loss: 9.036079789762727
+INFO:root:epoch: 23/40, matte_loss: 0.15377553014379913
+INFO:root:epoch: 23/40, matte_loss: 0.13266885668759493
+INFO:root:------save model------23  23.pth
+INFO:root:epoch: 24/40, matte_loss: 9.013348501750851
+INFO:root:epoch: 24/40, matte_loss: 0.15393583796913096
+INFO:root:epoch: 24/40, matte_loss: 0.1327335292946047
+INFO:root:------save model------24  24.pth
+INFO:root:epoch: 25/40, matte_loss: 9.008602405762579
+INFO:root:epoch: 25/40, matte_loss: 0.153857202937015
+INFO:root:epoch: 25/40, matte_loss: 0.13273562771064978
+INFO:root:------save model------25  25.pth
+INFO:root:epoch: 26/40, matte_loss: 8.954654665438785
+INFO:root:epoch: 26/40, matte_loss: 0.15350614878393354
+INFO:root:epoch: 26/40, matte_loss: 0.1323296463947052
+INFO:root:------save model------26  26.pth
+INFO:root:epoch: 27/40, matte_loss: 8.966418640962097
+INFO:root:epoch: 27/40, matte_loss: 0.15363091061470266
+INFO:root:epoch: 27/40, matte_loss: 0.13228780534264037
+INFO:root:------save model------27  27.pth
+INFO:root:epoch: 28/40, matte_loss: 8.959201814892735
+INFO:root:epoch: 28/40, matte_loss: 0.1534304948419057
+INFO:root:epoch: 28/40, matte_loss: 0.13218298729167563
+INFO:root:------save model------28  28.pth
+INFO:root:epoch: 29/40, matte_loss: 8.966542752090955
+INFO:root:epoch: 29/40, matte_loss: 0.15336691012557044
+INFO:root:epoch: 29/40, matte_loss: 0.13216726224030173
+INFO:root:------save model------29  29.pth
+INFO:root:epoch: 30/40, matte_loss: 8.877744150347345
+INFO:root:epoch: 30/40, matte_loss: 0.1531767927655618
+INFO:root:epoch: 30/40, matte_loss: 0.13182872084751143
+INFO:root:------save model------30  30.pth
+INFO:root:epoch: 31/40, matte_loss: 8.862046548530762
+INFO:root:epoch: 31/40, matte_loss: 0.15281304633397114
+INFO:root:epoch: 31/40, matte_loss: 0.13146873445970925
+INFO:root:------save model------31  31.pth
+INFO:root:epoch: 32/40, matte_loss: 8.862337646632593
+INFO:root:epoch: 32/40, matte_loss: 0.1531305196718197
+INFO:root:epoch: 32/40, matte_loss: 0.13177225171100526
+INFO:root:------save model------32  32.pth
+INFO:root:epoch: 33/40, matte_loss: 8.843898867899664
+INFO:root:epoch: 33/40, matte_loss: 0.1531106249694716
+INFO:root:epoch: 33/40, matte_loss: 0.1317713143305314
+INFO:root:------save model------33  33.pth
+INFO:root:epoch: 34/40, matte_loss: 8.826135359693904
+INFO:root:epoch: 34/40, matte_loss: 0.15294923246245734
+INFO:root:epoch: 34/40, matte_loss: 0.13153701149027824
+INFO:root:------save model------34  34.pth
+INFO:root:epoch: 35/40, matte_loss: 8.892158349026749
+INFO:root:epoch: 35/40, matte_loss: 0.15304281232665426
+INFO:root:epoch: 35/40, matte_loss: 0.1317806158746992
+INFO:root:------save model------35  35.pth
+INFO:root:epoch: 36/40, matte_loss: 8.873571684151125
+INFO:root:epoch: 36/40, matte_loss: 0.15297349538143087
+INFO:root:epoch: 36/40, matte_loss: 0.1316534340508711
+INFO:root:------save model------36  36.pth
+INFO:root:epoch: 37/40, matte_loss: 8.882174433473109
+INFO:root:epoch: 37/40, matte_loss: 0.1529183175412153
+INFO:root:epoch: 37/40, matte_loss: 0.1315879745682928
+INFO:root:------save model------37  37.pth
+INFO:root:epoch: 38/40, matte_loss: 8.866965207148823
+INFO:root:epoch: 38/40, matte_loss: 0.15296372783442466
+INFO:root:epoch: 38/40, matte_loss: 0.13162393090609717
+INFO:root:------save model------38  38.pth
+INFO:root:epoch: 39/40, matte_loss: 8.827115162610001
+INFO:root:epoch: 39/40, matte_loss: 0.15290073032127516
+INFO:root:epoch: 39/40, matte_loss: 0.13154054275834992
+INFO:root:------save model------39  39.pth
+ERROR:visdom:Connection to remote host was lost.
+ERROR:websocket:Connection to remote host was lost. - goodbye
+ERROR:websocket:error from callback <function Visdom.setup_socket.<locals>.on_close at 0x7f83cbd1dc10>: on_close() takes 1 positional argument but 3 were given
+ERROR:visdom:on_close() takes 1 positional argument but 3 were given
+INFO:websocket:Websocket connected
+INFO:visdom:Visdom successfully connected to server
+INFO:root:epoch: 40/40, matte_loss: 8.817880086649762
+INFO:root:epoch: 40/40, matte_loss: 0.152905475266156
+INFO:root:epoch: 40/40, matte_loss: 0.1314969476479203
+INFO:root:------save model------40  40.pth
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:batch_size: 64,lr :0.01, epochs: 40
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt
+INFO:root:------------------------------------
+INFO:root:model load ./result/prune/modnet_p_new_trimap_0027_lr0.0001_ratio_0.5_thresh_0.5.ckpt

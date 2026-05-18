@@ -1,0 +1,893 @@
+{% extends 'base.html' %}
+
+{% block title %}抠图结果 - 人像抠图系统{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-header">
+        <div class="result-icon success">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1 class="result-title">抠图完成！</h1>
+        <p class="result-subtitle">人像抠图处理成功，下面是处理结果</p>
+    </div>
+
+    <div class="result-content">
+        <div class="result-grid">
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-image"></i> 原始图片</h3>
+                </div>
+                <div class="card-body">
+                    {% if image.image %}
+                        <img src="{{ image.image.url }}" alt="原始图片" class="result-image">
+                    {% else %}
+                        <div class="no-image">
+                            <i class="fas fa-image"></i>
+                            <p>图片加载失败</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <p class="image-info">上传时间：{{ image.uploaded_at|date:"Y-m-d H:i" }}</p>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-magic"></i> 抠图结果</h3>
+                </div>
+                <div class="card-body">
+                    {% if matting_result and matting_result.result_image %}
+                        <img src="{{ matting_result.result_image.url }}" alt="抠图结果" class="result-image">
+                    {% else %}
+                        <div class="processing">
+                            <div class="loading-spinner"></div>
+                            <p>正在生成结果...</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    {% if matting_result %}
+                        <p class="image-info">状态：{{ matting_result.get_status_display }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <div class="action-group">
+                <h3><i class="fas fa-download"></i> 下载结果</h3>
+                <div class="action-buttons">
+                    {% if matting_result and matting_result.result_image %}
+                        <a href="{{ matting_result.result_image.url }}" download class="btn btn-download">
+                            <i class="fas fa-file-download"></i> 下载抠图结果
+                        </a>
+                        {% if matting_result.has_transparent_version and matting_result.transparent_image %}
+                            <a href="{{ matting_result.transparent_image.url }}" download class="btn btn-download" style="background: linear-gradient(135deg, #10b981 0%, #34d399 100%);">
+                                <i class="fas fa-file-image"></i> 下载透明 PNG
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <button class="btn btn-download" disabled>
+                            <i class="fas fa-clock"></i> 处理中...
+                        </button>
+                    {% endif %}
+                    <a href="{% url 'uploads:upload' %}" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> 继续上传
+                    </a>
+                </div>
+            </div>
+
+            <div class="action-group">
+                <h3><i class="fas fa-palette"></i> 更换背景</h3>
+                <div class="background-selector">
+                    <div class="bg-options">
+                        <label class="bg-option">
+                            <input type="radio" name="background_type" value="transparent"
+                                   {% if matting_result.background_type == 'transparent' %}checked{% endif %}>
+                            <span class="option-card">
+                                <div class="checkerboard"></div>
+                                <span>透明背景</span>
+                            </span>
+                        </label>
+                        <label class="bg-option">
+                            <input type="radio" name="background_type" value="solid_color"
+                                   {% if matting_result.background_type == 'solid_color' %}checked{% endif %}>
+                            <span class="option-card">
+                                <div class="color-preview" data-background-color="{{ matting_result.background_color|default:'#FFFFFF' }}" style="background-color: #FFFFFF;"></div>
+                                <span>纯色背景</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div id="colorPickerContainer" style="display: none; margin-top: 20px;">
+                        <label for="colorPicker" style="display: block; margin-bottom: 10px; color: #1a1f36; font-weight: 600;">
+                            选择颜色：
+                        </label>
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                            <input type="color" id="colorPicker" value="{{ matting_result.background_color|default:'#FFFFFF' }}"                                   style="width: 60px; height: 40px; border: none; cursor: pointer; border-radius: 8px;">
+                            <input type="text" id="colorHex" value="{{ matting_result.background_color|default:'#FFFFFF' }}"                                   style="flex: 1; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-family: monospace;"
+                                   placeholder="#RRGGBB">
+                            <button id="applyColorBtn" class="btn btn-download" style="padding: 10px 24px;">
+                                <i class="fas fa-magic"></i> 应用
+                            </button>
+                        </div>
+
+                        <!-- 预设颜色区域 -->
+                        <div style="margin-bottom: 15px;">
+                            <h5 style="color: #1a1f36; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-star"></i> 预设颜色
+                            </h5>
+                            <div id="presetColors" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span class="color-swatch" data-color="#FFFFFF" style="background: #FFFFFF; border: 2px solid #ddd;" title="白色"></span>
+                                <span class="color-swatch" data-color="#000000" style="background: #000000; border: 2px solid #ddd;" title="黑色"></span>
+                                <span class="color-swatch" data-color="#FF0000" style="background: #FF0000; border: 2px solid #ddd;" title="红色"></span>
+                                <span class="color-swatch" data-color="#00FF00" style="background: #00FF00; border: 2px solid #ddd;" title="绿色"></span>
+                                <span class="color-swatch" data-color="#0000FF" style="background: #0000FF; border: 2px solid #ddd;" title="蓝色"></span>
+                                <span class="color-swatch" data-color="#FFFF00" style="background: #FFFF00; border: 2px solid #ddd;" title="黄色"></span>
+                                <span class="color-swatch" data-color="#FF00FF" style="background: #FF00FF; border: 2px solid #ddd;" title="品红"></span>
+                                <span class="color-swatch" data-color="#00FFFF" style="background: #00FFFF; border: 2px solid #ddd;" title="青色"></span>
+                            </div>
+                        </div>
+
+                        <!-- 自定义颜色保存区域 -->
+                        <div>
+                            <h5 style="color: #1a1f36; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-palette"></i> 我的自定义颜色
+                            </h5>
+                            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                                <button id="saveColorBtn" class="btn btn-secondary" style="padding: 8px 20px; font-size: 0.9rem;">
+                                    <i class="fas fa-plus"></i> 保存到预设
+                                </button>
+                                <button id="clearCustomColorsBtn" class="btn btn-secondary" style="padding: 8px 20px; font-size: 0.9rem; background: #fee; border-color: #fcc; color: #c00;">
+                                    <i class="fas fa-trash"></i> 清空自定义
+                                </button>
+                            </div>
+                            <div id="customColors" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <!-- 自定义颜色将动态添加到这里 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="backgroundPreview" style="margin-top: 20px; display: none;">
+                        <h4 style="margin-bottom: 10px; color: #1a1f36;">预览：</h4>
+                        <img id="previewImage" src="" alt="预览" style="max-width: 100%; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+<!--            <div class="action-group">-->
+<!--                <h3><i class="fas fa-share-alt"></i> 分享结果</h3>-->
+<!--                <div class="share-buttons">-->
+<!--                    <button class="share-btn" onclick="shareTo('wechat')">-->
+<!--                        <i class="fab fa-weixin"></i> 微信-->
+<!--                    </button>-->
+<!--                    <button class="share-btn" onclick="shareTo('qq')">-->
+<!--                        <i class="fab fa-qq"></i> QQ-->
+<!--                    </button>-->
+<!--                    <button class="share-btn" onclick="shareTo('weibo')">-->
+<!--                        <i class="fab fa-weibo"></i> 微博-->
+<!--                    </button>-->
+<!--                    <button class="share-btn copy-btn" onclick="copyLink()">-->
+<!--                        <i class="fas fa-link"></i> 复制链接-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+        <div class="result-tips">
+            <div class="tip-card">
+                <h3><i class="fas fa-lightbulb"></i> 下一步建议</h3>
+                <ul>
+                    <li>下载透明背景的人像用于设计创作</li>
+                    <li>在历史记录中查看所有处理过的图片</li>
+                    <li>尝试更换不同的纯色背景</li>
+<!--                    <li>分享给你的朋友或同事</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .result-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .result-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .result-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 36px;
+    }
+
+    .result-icon.success {
+        background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        color: white;
+    }
+
+    .result-title {
+        font-size: 2.5rem;
+        color: #1a1f36;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .result-subtitle {
+        font-size: 1.2rem;
+        color: #6b7280;
+        margin-bottom: 20px;
+    }
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    @media (max-width: 900px) {
+        .result-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .result-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .result-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        padding: 20px 30px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-header h3 {
+        color: #1a1f36;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.3rem;
+    }
+
+    .card-body {
+        padding: 30px;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .result-image {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-image, .processing {
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .no-image i, .processing i {
+        font-size: 60px;
+        color: #9ca3af;
+        margin-bottom: 15px;
+    }
+
+    .card-footer {
+        padding: 20px 30px;
+        background: #f8fafc;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .image-info {
+        color: #6b7280;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .result-actions {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .action-group {
+        margin-bottom: 30px;
+    }
+
+    .action-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .action-group h3 {
+        color: #1a1f36;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.3rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 14px 32px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: none;
+    }
+
+    .btn-download {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+    }
+
+    .btn-download:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(74, 108, 247, 0.4);
+    }
+
+    .btn-download:disabled {
+        background: #e5e7eb;
+        color: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .btn-secondary {
+        background: white;
+        color: #4a6cf7;
+        border: 2px solid #4a6cf7;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(74, 108, 247, 0.05);
+        transform: translateY(-3px);
+    }
+
+    .share-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .share-btn {
+        padding: 12px 24px;
+        border-radius: 10px;
+        background: white;
+        border: 2px solid #e5e7eb;
+        color: #6b7280;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .share-btn:hover {
+        border-color: #4a6cf7;
+        color: #4a6cf7;
+        transform: translateY(-2px);
+    }
+
+    .share-btn.copy-btn:hover {
+        border-color: #10b981;
+        color: #10b981;
+    }
+
+    .result-tips {
+        margin-top: 40px;
+    }
+
+    .tip-card {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-radius: 20px;
+        padding: 30px;
+        border-left: 6px solid #4a6cf7;
+    }
+
+    .tip-card h3 {
+        color: #1a1f36;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.3rem;
+    }
+
+    .tip-card ul {
+        list-style: none;
+        padding-left: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+
+    .tip-card li {
+        color: #1a1f36;
+        padding-left: 28px;
+        position: relative;
+        line-height: 1.6;
+    }
+
+    .tip-card li:before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: #4a6cf7;
+        font-weight: bold;
+    }
+
+    .background-selector {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .bg-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .bg-option {
+        cursor: pointer;
+    }
+
+    .bg-option input[type="radio"] {
+        display: none;
+    }
+
+    .option-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border: 3px solid #e5e7eb;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .option-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .bg-option input[type="radio"]:checked + .option-card {
+        border-color: #4a6cf7;
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.2);
+    }
+
+    .checkerboard {
+        width: 60px;
+        height: 60px;
+        background-image:
+            linear-gradient(45deg, #ccc 25%, transparent 25%),
+            linear-gradient(-45deg, #ccc 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #ccc 75%),
+            linear-gradient(-45deg, transparent 75%, #ccc 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .color-preview {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .color-swatch {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 2px solid #ddd;
+    }
+
+    .color-swatch:hover {
+        transform: scale(1.1);
+        border-color: #4a6cf7;
+        box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+    }
+
+    #customColors .color-swatch {
+        position: relative;
+    }
+
+    #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loading-spinner-lg {
+        width: 60px;
+        height: 60px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #4a6cf7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #4a6cf7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .result-title {
+            font-size: 2rem;
+        }
+
+        .result-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .result-grid {
+            gap: 20px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .share-buttons {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .result-title {
+            font-size: 1.8rem;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .result-actions {
+            padding: 20px;
+        }
+    }
+</style>
+
+<script>
+    function shareTo(platform) {
+        const shareUrl = window.location.href;
+        const title = '人像抠图结果分享';
+        const text = '看看我的人像抠图效果！';
+        
+        let shareLink = '';
+        
+        switch(platform) {
+            case 'wechat':
+                alert('请使用微信扫描二维码分享：\n' + shareUrl);
+                break;
+            case 'qq':
+                shareLink = `https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`;
+                window.open(shareLink, '_blank');
+                break;
+            case 'weibo':
+                shareLink = `https://service.weibo.com/share/share.php?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(text)}`;
+                window.open(shareLink, '_blank');
+                break;
+        }
+    }
+
+    function copyLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('链接已复制到剪贴板！');
+        }).catch(err => {
+            console.error('复制失败:', err);
+            prompt('请手动复制链接：', url);
+        });
+    }
+
+    // 背景选择功能
+    // 背景选择功能
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初始化颜色预览框
+        const colorPreview = document.querySelector('.color-preview');
+        if (colorPreview) {
+            const bgColor = colorPreview.dataset.backgroundColor;
+            if (bgColor) {
+                colorPreview.style.backgroundColor = bgColor;
+            }
+        }
+
+        // 加载自定义颜色
+        loadCustomColors();
+
+        const backgroundTypeRadios = document.querySelectorAll('input[name="background_type"]');
+        const colorPickerContainer = document.getElementById('colorPickerContainer');
+        const colorPicker = document.getElementById('colorPicker');
+        const colorHex = document.getElementById('colorHex');
+        const applyColorBtn = document.getElementById('applyColorBtn');
+        const saveColorBtn = document.getElementById('saveColorBtn');
+        const clearCustomColorsBtn = document.getElementById('clearCustomColorsBtn');
+        const colorSwatches = document.querySelectorAll('.color-swatch');
+        const backgroundPreview = document.getElementById('backgroundPreview');
+        const previewImage = document.getElementById('previewImage');
+        const resultId = '{{ matting_result.id }}';
+
+        // 监听背景类型切换
+        backgroundTypeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'solid_color') {
+                    colorPickerContainer.style.display = 'block';
+                } else {
+                    colorPickerContainer.style.display = 'none';
+                    // 直接应用透明背景
+                    applyBackground('transparent', null);
+                }
+            });
+        });
+
+        // 颜色选择器变化同步
+        colorPicker.addEventListener('input', function() {
+            colorHex.value = this.value.toUpperCase();
+        });
+
+        colorHex.addEventListener('input', function() {
+            let value = this.value;
+            if (!value.startsWith('#')) {
+                value = '#' + value;
+            }
+            if (/^#[0-9A-F]{6}$/i.test(value)) {
+                colorPicker.value = value;
+            }
+        });
+
+        // 预设颜色点击（包括默认和自定义）
+        function attachColorSwatchEvents() {
+            const allSwatches = document.querySelectorAll('#presetColors .color-swatch, #customColors .color-swatch');
+            allSwatches.forEach(swatch => {
+                swatch.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    colorPicker.value = color;
+                    colorHex.value = color;
+                });
+            });
+        }
+
+        // 初始绑定事件
+        attachColorSwatchEvents();
+
+        // 保存自定义颜色
+        saveColorBtn.addEventListener('click', function() {
+            const color = colorPicker.value;
+            if (!color) {
+                alert('请先选择一个颜色！');
+                return;
+            }
+
+            // 获取已保存的自定义颜色
+            let customColors = JSON.parse(localStorage.getItem('customBackgroundColors') || '[]');
+
+            // 检查是否已存在
+            if (!customColors.includes(color)) {
+                customColors.push(color);
+                localStorage.setItem('customBackgroundColors', JSON.stringify(customColors));
+
+                // 添加到显示
+                addCustomColorToDisplay(color);
+                attachColorSwatchEvents();
+
+                alert('颜色已保存到预设！');
+            } else {
+                alert('该颜色已在预设中！');
+            }
+        });
+
+        // 清空自定义颜色
+        clearCustomColorsBtn.addEventListener('click', function() {
+            if (confirm('确定要清空所有自定义颜色吗？')) {
+                localStorage.removeItem('customBackgroundColors');
+                document.getElementById('customColors').innerHTML = '';
+                alert('已清空所有自定义颜色！');
+            }
+        });
+
+        // 应用颜色按钮
+        applyColorBtn.addEventListener('click', function() {
+            const color = colorPicker.value;
+            applyBackground('solid_color', color);
+        });
+
+        // 应用背景函数
+        function applyBackground(type, color) {
+            // 显示加载动画
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.id = 'loadingOverlay';
+            loadingOverlay.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="loading-spinner-lg"></div>
+                    <p style="margin-top: 20px; color: #1a1f36; font-weight: 600;">正在更换背景...</p>
+                </div>
+            `;
+            document.body.appendChild(loadingOverlay);
+            loadingOverlay.style.display = 'flex';
+
+            const formData = new FormData();
+            formData.append('background_type', type);
+            if (color) {
+                formData.append('background_color', color);
+            }
+
+            fetch(`/matting/change-background/${resultId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingOverlay.remove();
+                if (data.success) {
+                    // 更新预览图
+                    previewImage.src = data.image_url + '?t=' + new Date().getTime();
+                    backgroundPreview.style.display = 'block';
+
+                    // 更新下载链接
+                    const downloadLinks = document.querySelectorAll('.btn-download');
+                    downloadLinks.forEach(link => {
+                        if (link.textContent.includes('下载抠图结果')) {
+                            link.href = data.image_url + '?t=' + new Date().getTime();
+                        }
+                    });
+
+                    alert('背景更换成功！');
+                } else {
+                    alert('更换背景失败：' + data.message);
+                }
+            })
+            .catch(error => {
+                loadingOverlay.remove();
+                console.error('Error:', error);
+                alert('更换背景时发生错误，请稍后重试');
+            });
+        }
+
+        // 加载自定义颜色
+        function loadCustomColors() {
+            const customColors = JSON.parse(localStorage.getItem('customBackgroundColors') || '[]');
+            customColors.forEach(color => {
+                addCustomColorToDisplay(color);
+            });
+            attachColorSwatchEvents();
+        }
+
+        // 添加自定义颜色到显示
+        function addCustomColorToDisplay(color) {
+            const customColorsContainer = document.getElementById('customColors');
+            const swatch = document.createElement('span');
+            swatch.className = 'color-swatch';
+            swatch.dataset.color = color;
+            swatch.style.background = color;
+            swatch.style.border = '2px solid #ddd';
+            swatch.title = color;
+
+            // 添加删除按钮
+            swatch.style.position = 'relative';
+            swatch.innerHTML = `
+                <i class="fas fa-times" style="position: absolute; top: -8px; right: -8px; background: #f44; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s;"></i>
+            `;
+
+            const deleteBtn = swatch.querySelector('.fa-times');
+            deleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm(`确定要删除颜色 ${color} 吗？`)) {
+                    removeCustomColor(color);
+                    swatch.remove();
+                }
+            });
+
+            swatch.addEventListener('mouseenter', function() {
+                deleteBtn.style.opacity = '1';
+            });
+
+            swatch.addEventListener('mouseleave', function() {
+                deleteBtn.style.opacity = '0';
+            });
+
+            customColorsContainer.appendChild(swatch);
+        }
+
+        // 删除自定义颜色
+        function removeCustomColor(color) {
+            let customColors = JSON.parse(localStorage.getItem('customBackgroundColors') || '[]');
+            customColors = customColors.filter(c => c !== color);
+            localStorage.setItem('customBackgroundColors', JSON.stringify(customColors));
+        }
+
+        // CSRF token 获取函数
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+
+</script>
+{% endblock %}
+[file content end]

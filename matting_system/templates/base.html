@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}人像抠图系统{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .message-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .type-user {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .type-admin {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(74, 108, 247, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部导航栏样式 */
+        .header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #4a6cf7;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #555;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #4a6cf7;
+            background: rgba(74, 108, 247, 0.05);
+        }
+
+        .nav-link.active {
+            color: #4a6cf7;
+            background: rgba(74, 108, 247, 0.1);
+        }
+
+        /* 主内容区 - 居中且增大 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 1rem;
+            position: relative;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 3.5rem 4rem;
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.6s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #4a6cf7, #6b8aff, #8aa9ff);
+        }
+
+        .welcome-title {
+            font-size: 2.8rem;
+            color: #1a1f36;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            gap: 0.7rem;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(74, 108, 247, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(74, 108, 247, 0.4);
+        }
+
+        .btn-register {
+            background: white;
+            color: #4a6cf7;
+            border: 2px solid #4a6cf7;
+            box-shadow: 0 8px 25px rgba(74, 108, 247, 0.1);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            background: rgba(74, 108, 247, 0.05);
+            box-shadow: 0 12px 30px rgba(74, 108, 247, 0.15);
+        }
+
+        .btn-disabled {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            color: #9ca3af;
+            cursor: not-allowed;
+            position: relative;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* 消息通知图标 */
+        .message-indicator {
+            position: relative !important;
+        }
+
+        .message-indicator[data-unread-count]::after {
+            content: attr(data-unread-count) !important;
+            position: absolute !important;
+            top: 0px !important;
+            right: 0px !important;
+            background: #ef4444 !important;
+            color: white !important;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 20px;
+            padding: 0 5px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+            z-index: 9999 !important;
+            transform: translate(50%, -50%);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(50%, -50%) scale(1.2);
+            }
+        }
+
+
+        /* 统一底部页脚样式 */
+        .footer {
+            background: #1a1f36;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #6b8aff;
+        }
+
+        .copyright {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .welcome-card {
+                padding: 2.5rem 3rem;
+            }
+
+            .welcome-title {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-card {
+                padding: 2rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
+            .welcome-card {
+                padding: 1.8rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <span>人像抠图系统</span>
+            </div>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"><i class="fas fa-user"></i> 个人资料</a>
+                    <a href="{% url 'users:history' %}" class="nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}"><i class="fas fa-history"></i> 历史记录</a>
+                    <a href="{% url 'users:message_list' %}" class="nav-link message-indicator {% if request.resolver_match.url_name == 'message_list' or request.resolver_match.url_name == 'message_detail' %}active{% endif %}" {% if unread_messages_count > 0 and request.resolver_match.url_name != 'message_list' and request.resolver_match.url_name != 'message_detail' %}data-unread-count="{{ unread_messages_count }}"{% endif %}>
+                        <i class="fas fa-envelope"></i> 消息
+                    </a>
+                    <a href="{% url 'users:contact_admin' %}" class="nav-link {% if request.resolver_match.url_name == 'contact_admin' %}active{% endif %}"><i class="fas fa-comments"></i> 联系管理员</a>
+                    <a href="{% url 'users:system_notices' %}" class="nav-link {% if request.resolver_match.url_name == 'system_notices' %}active{% endif %}"><i class="fas fa-bullhorn"></i> 系统公告</a>
+                    <a href="{% url 'users:logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> 退出登录</a>
+                {% else %}
+                    <a href="{% url 'users:login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}"><i class="fas fa-sign-in-alt"></i> 登录</a>
+                    <a href="{% url 'users:register' %}" class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}"><i class="fas fa-user-plus"></i> 注册</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- 底部页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">服务条款</a>
+                <a href="#" class="footer-link">隐私政策</a>
+                <a href="#" class="footer-link">帮助中心</a>
+                <a href="#" class="footer-link">联系我们</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航链接点击事件
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // 移除所有active类
+                    document.querySelectorAll('.nav-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    // 为当前点击的链接添加active类
+                    this.classList.add('active');
+
+                    // 跳转到对应的URL
+                    window.location.href = this.getAttribute('href');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+    .profile-container {
+        max-width: 800px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+    }
+
+    /* 欢迎横幅 */
+    .welcome-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 3px solid #e2e8f0;
+        text-align: center;
+    }
+
+    .welcome-title {
+        font-size: 2.8rem;
+        color: #1a1f36;
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .welcome-subtitle {
+        color: #64748b;
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    /* 账户信息卡片 */
+    .account-info-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 3rem;
+    }
+
+    .card-header {
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 4px solid #f0f4ff;
+    }
+
+    .card-title {
+        font-size: 2rem;
+        color: #1a1f36;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .card-title i {
+        color: #4a6cf7;
+        font-size: 1.8rem;
+    }
+
+    .card-description {
+        color: #6b7280;
+        font-size: 1.1rem;
+        margin: 0.5rem 0 0 0;
+    }
+
+    /* 信息网格 */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+        background: #f1f5f9;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-label {
+        color: #64748b;
+        font-size: 1.1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .info-label i {
+        width: 28px;
+        color: #94a3b8;
+    }
+
+    .info-value {
+        color: #1a1f36;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .status-active {
+        color: #10b981;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .status-active:before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    /* 编辑按钮 */
+    .btn-save {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        padding: 1.5rem 3rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+        margin-top: 2rem;
+    }
+
+    .btn-save:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(74, 108, 247, 0.3);
+    }
+
+    .logout-btn {
+        margin-left: 15px;
+        background: #f8fafc;
+        color: #6b7280;
+        border: 2px solid #e2e8f0;
+    }
+    .logout-btn:hover {
+        background: #f1f5f9;
+        color: #1a1f36;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .profile-container {
+            padding: 0 1rem;
+        }
+        
+        .welcome-section {
+            padding: 2.5rem 2rem;
+        }
+        
+        .account-info-card {
+            padding: 2.5rem 2rem;
+        }
+        
+        .welcome-title {
+            font-size: 2.2rem;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+        }
+        
+        .info-item {
+            padding: 1.2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .profile-container {
+            padding: 0 0.75rem;
+        }
+
+        .welcome-section {
+            padding: 2rem 1.5rem;
+        }
+
+        .account-info-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            justify-content: flex-start;
+            gap: 0.5rem;
+        }
+
+        .info-value {
+            text-align: left;
+            width: 100%;
+        }
+
+        .btn-save {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2rem;
+        }
+    }

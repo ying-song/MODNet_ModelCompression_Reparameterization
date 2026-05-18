@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}我的消息{% endblock %}
+
+{% block content %}
+<div class="welcome-card" style="max-width: 1000px;">
+    <h1 class="welcome-title"><i class="fas fa-envelope"></i> 我的消息</h1>
+    {% if unread_count > 0 %}
+    <div style="margin-bottom: 1.5rem; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-bell" style="font-size: 1.5rem;"></i>
+            <div>
+                <strong style="font-size: 1.1rem;">您有 {{ unread_count }} 条未读消息</strong>
+                <p style="margin: 0.25rem 0 0 0; opacity: 0.9; font-size: 0.9rem;">已读消息会自动标记为已读</p>
+            </div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600;">
+            {{ unread_count }} 条
+        </div>
+    </div>
+    {% endif %}
+
+    {% if messages %}
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">类型</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">主题</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">发送者</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">接收者</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">状态</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">时间</th>
+                <th style="padding: 1rem; text-align: left; color: #1a1f36; font-weight: 600;">操作</th>
+            </tr>
+        </thead>
+         <tbody>
+            {% for message in messages %}
+            <tr class="{% if message.status == 'UNREAD' and message.recipient == user %}unread-message{% endif %}">
+                <td style="padding: 12px;">
+                    {% if message.message_type == 'USER_TO_ADMIN' %}
+                        <span class="message-type-badge type-user">
+                            <i class="fas fa-user"></i> 用户→管理员
+                        </span>
+                    {% else %}
+                        <span class="message-type-badge type-admin">
+                            <i class="fas fa-user-shield"></i> 管理员→用户
+                        </span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <strong style="color: #1a1f36;">{{ message.subject|default:"(无主题)" }}</strong>
+                    {% if message.status == 'UNREAD' and message.recipient == user %}
+                        <span style="display: inline-block; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-left: 6px;" title="未读"></span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    {% if message.message_type == 'USER_TO_ADMIN' %}
+                        <span style="color: #6b7280;">{{ message.sender.username }}</span>
+                    {% else %}
+                        <span style="color: #4a6cf7; font-weight: 600;">管理员</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    {% if message.message_type == 'USER_TO_ADMIN' %}
+                        <span style="color: #4a6cf7; font-weight: 600;">管理员</span>
+                    {% else %}
+                        <span style="color: #6b7280;">{{ message.recipient.username }}</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    {% if message.status == 'UNREAD' %}
+                        <span style="color: #ef4444; font-weight: 600;">
+                            <i class="fas fa-envelope"></i> 未读
+                        </span>
+                    {% elif message.status == 'READ' %}
+                        <span style="color: #3b82f6; font-weight: 600;">
+                            <i class="fas fa-check"></i> 已读
+                        </span>
+                    {% else %}
+                        <span style="color: #10b981; font-weight: 600;">
+                            <i class="fas fa-reply"></i> 已回复
+                        </span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <span style="color: #6b7280;">{{ message.created_at|date:"Y-m-d H:i" }}</span>
+                </td>
+                <td style="padding: 12px;">
+                    {% if message.message_type == 'USER_TO_ADMIN' and message.replies.exists %}
+                        <span style="color: #10b981; font-weight: 600;">
+                            <i class="fas fa-comments"></i> {{ message.replies.count }}条回复
+                        </span>
+                    {% else %}
+                        <span style="color: #9ca3af;">
+                            <i class="fas fa-comment-slash"></i> 无回复
+                        </span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px;">
+                    <a href="{% url 'users:message_detail' message.id %}" class="btn-view">
+                        <i class="fas fa-eye"></i> 查看
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; color: #9ca3af;">
+        <i class="fas fa-inbox" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+        <p>暂无消息</p>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{% url 'users:contact_admin' %}" class="btn btn-login">
+            <i class="fas fa-paper-plane"></i> 联系管理员
+        </a>
+    </div>
+</div>
+{% endblock %}

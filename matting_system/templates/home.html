@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}首页 - 人像抠图系统{% endblock %}
+
+{% block content %}
+<div class="welcome-card">
+    <h1 class="welcome-title">专业人像抠图系统</h1>
+    <p class="welcome-subtitle">
+        使用先进的人工智能技术，轻松将人像从背景中分离。上传图片，自动识别并精确抠出人像，生成透明背景或替换为任意背景。
+    </p>
+
+    <div class="action-buttons">
+        {% if user.is_authenticated %}
+            <a href="{% url 'uploads:upload' %}" class="btn btn-login">
+                <i class="fas fa-magic"></i> 开始抠图
+            </a>
+            <a href="{% url 'users:profile' %}" class="btn btn-register">
+                <i class="fas fa-user"></i> 个人资料
+            </a>
+        {% else %}
+            <a href="{% url 'users:login' %}" class="btn btn-login">
+                <i class="fas fa-sign-in-alt"></i> 登录账户
+            </a>
+            <a href="{% url 'users:register' %}" class="btn btn-register">
+                <i class="fas fa-user-plus"></i> 注册新用户
+            </a>
+        {% endif %}
+    </div>
+
+    {% if not user.is_authenticated %}
+        <button class="btn btn-disabled">
+            <i class="fas fa-magic"></i> 开始抠图（请先登录）
+        </button>
+    {% endif %}
+</div>
+{% endblock %}
+

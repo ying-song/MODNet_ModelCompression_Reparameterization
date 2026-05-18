@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}消息对话{% endblock %}
+
+{% block content %}
+<style>
+    .chat-wrapper {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .chat-container {
+        height: calc(100vh - 200px);
+        min-height: 600px;
+        display: flex;
+        flex-direction: column;
+        background: #f5f7fa;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        position: relative;
+    }
+    .chat-header {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .chat-header h2 {
+        font-size: 1.4rem;
+        margin: 0 0 0.5rem 0;
+    }
+    .chat-header p {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        margin: 0;
+    }
+    .btn-back-top {
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+    }
+    .btn-back-top:hover {
+        background: rgba(255,255,255,0.3);
+    }
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+    .message-bubble {
+        max-width: 70%;
+        padding: 1.2rem 1.8rem;
+        border-radius: 16px;
+        line-height: 1.6;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .message-user {
+        align-self: flex-start;
+        background: white;
+        border: 2px solid #e8edf5;
+        color: #1a1f36;
+        border-bottom-left-radius: 4px;
+    }
+    .message-admin {
+        align-self: flex-end;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    .message-meta {
+        font-size: 0.82rem;
+        margin-top: 0.6rem;
+        opacity: 0.75;
+    }
+    .chat-input-area {
+        background: white;
+        padding: 1.5rem 2rem;
+        border-top: 2px solid #e8edf5;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    .chat-input-area form {
+        flex: 1;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    .chat-input-area textarea {
+        flex: 1;
+        padding: 1rem 1.2rem;
+        border: 2px solid #e8edf5;
+        border-radius: 12px;
+        resize: none;
+        font-size: 1rem;
+        min-height: 56px;
+        max-height: 140px;
+        transition: border-color 0.3s;
+    }
+    .chat-input-area textarea:focus {
+        outline: none;
+        border-color: #4a6cf7;
+    }
+    .btn-send {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    .btn-send:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(74, 108, 247, 0.4);
+    }
+    .chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+</style>
+
+<div class="chat-wrapper">
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2><i class="fas fa-comments"></i> 与 {% if root_message.message_type == 'USER_TO_ADMIN' %}管理员{% else %}{{ root_message.sender.username }}{% endif %} 对话</h2>
+            <p>主题：{{ root_message.subject }} | 时间：{{ root_message.created_at|date:"Y-m-d H:i" }}</p>
+            <a href="{% url 'users:message_list' %}" class="btn-back-top"><i class="fas fa-arrow-left"></i> 返回列表</a>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- 用户的初始消息 -->
+            <div class="message-bubble message-user">
+                <div>{{ root_message.content }}</div>
+                <div class="message-meta"><i class="fas fa-user"></i> {{ root_message.sender.username }} (您) · {{ root_message.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+
+            <!-- 往来回复 -->
+            {% for reply in replies %}
+            {% if reply.message_type == 'ADMIN_TO_USER' %}
+            <div class="message-bubble message-admin">
+                <div>{{ reply.content }}</div>
+                <div class="message-meta"><i class="fas fa-user-shield"></i> {{ reply.sender.username }} (管理员) · {{ reply.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+            {% else %}
+            <div class="message-bubble message-user">
+                <div>{{ reply.content }}</div>
+                <div class="message-meta"><i class="fas fa-user"></i> {{ reply.sender.username }} (您) · {{ reply.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- 用户回复输入框 - 所有用户都可以回复 -->
+        <div class="chat-input-area">
+            <form method="post" style="flex: 1; display: flex; gap: 1rem; align-items: flex-end;" id="replyForm">
+                {% csrf_token %}
+                <textarea name="reply_content" id="messageInput" placeholder="输入回复内容...（按 Enter 发送，Shift+Enter 换行）" required></textarea>
+                <button type="submit" class="btn-send">
+                    <i class="fas fa-paper-plane"></i> 发送
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+
+    if (messageInput) {
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('replyForm').submit();
+            }
+        });
+    }
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    if (messageInput) {
+        messageInput.focus();
+    }
+</script>
+{% endblock %}

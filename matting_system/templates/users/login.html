@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %}登录 - 人像抠图系统{% endblock %}
+
+{% block content %}
+<div class="welcome-card">
+    <h1 class="welcome-title">用户登录</h1>
+    <p class="welcome-subtitle">欢迎回来！请使用您的账户信息登录</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'info' and '成功登出' in message.message %}
+                <!-- 简洁但显眼的登出成功消息 -->
+                <div class="logout-success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span>{{ message }}</span>
+                </div>
+            {% else %}
+                <!-- 其他普通消息 -->
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" value="{{ request.POST.username|default_if_none:'' }}" required>
+            {% if form.username.errors %}
+                <div class="message error">
+                    {% for error in form.username.errors %}
+                        <p style="color: #ef4444; font-weight: 600;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+            {% if form.password.errors %}
+                <div class="message error">
+                    {% for error in form.password.errors %}
+                        <p style="color: #ef4444; font-weight: 600;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-login">
+            <i class="fas fa-sign-in-alt"></i> 登录
+        </button>
+    </form>
+
+    <div class="register-link">
+        <p>没有账户？<a href="{% url 'users:register' %}" class="btn btn-register">
+            <i class="fas fa-user-plus"></i> 注册
+        </a></p>
+    </div>
+</div>
+
+<style>
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-group input {
+        padding: 0.8rem 1.2rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #4a6cf7;
+        box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+    }
+
+    .register-link {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .register-link a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .register-link a:hover {
+        background: rgba(74, 108, 247, 0.05);
+        color: #4a6cf7;
+    }
+
+    /* 错误消息样式 */
+    .message.error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid #ef4444;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .message.error p {
+        color: #ef4444;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    /* 简洁的登出成功消息样式 */
+    .logout-success-message {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 2px solid #10b981;
+        border-radius: 12px;
+        padding: 0.8rem 1.2rem;
+        margin-bottom: 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        animation: fadeIn 0.5s ease-out;
+        max-width: 350px;
+        width: auto;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .logout-success-message i {
+        color: #10b981;
+        font-size: 1.3rem;
+    }
+
+    .logout-success-message span {
+        color: #065f46;
+        font-weight: 600;
+        font-size: 1rem;
+        flex: 1;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,784 @@
+{% extends 'base.html' %}
+
+{% block title %}上传图片 - 人像抠图系统{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="upload-card">
+        <div class="upload-header">
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h1 class="upload-title">上传人像图片</h1>
+            <p class="upload-subtitle">支持 JPG、PNG、GIF、BMP 格式，最大 5MB</p>
+        </div>
+
+        <form id="upload-form" method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+
+<!--            拖拽上传区域-->
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="image-input" name="image" accept="image/*" hidden>
+                <div class="upload-preview" id="upload-preview">
+                    <i class="fas fa-image"></i>
+                    <p>点击或拖拽图片到此处</p>
+                </div>
+                <button type="button" class="btn btn-select" id="select-btn">
+                    <i class="fas fa-folder-open"></i> 选择图片
+                </button>
+            </div>
+
+<!--            预览-->
+            <div class="upload-info" id="upload-info" style="display: none;">
+                <div class="file-info">
+                    <div class="file-thumbnail">
+                        <img id="preview-image" src="" alt="预览">
+                    </div>
+                    <div class="file-details">
+                        <h4 id="file-name"></h4>
+                        <p id="file-size"></p>
+                        <div class="file-actions">
+                            <button type="button" class="btn-change" id="change-btn">更换图片</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模型选择区域 -->
+            <div class="upload-options" id="upload-options" style="display: none;">
+                <h3><i class="fas fa-microchip"></i> 选择模型：</h3>
+                <div class="model-selector">
+                    <label class="model-option">
+                        <input type="radio" name="model_type" value="default" checked>
+                        <div class="model-card">
+                            <div class="model-header">
+                                <i class="fas fa-balance-scale"></i>
+                                <span class="model-name">默认模型</span>
+                            </div>
+                            <p class="model-desc">平衡性能与速度，适合日常使用</p>
+                            <div class="model-tags">
+                                <span class="tag tag-speed"><i class="fas fa-tachometer-alt"></i> 速度适中</span>
+                                <span class="tag tag-quality"><i class="fas fa-star"></i> 质量良好</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="model-option">
+                        <input type="radio" name="model_type" value="high_quality">
+                        <div class="model-card">
+                            <div class="model-header">
+                                <i class="fas fa-gem"></i>
+                                <span class="model-name">高质量模型</span>
+                            </div>
+                            <p class="model-desc">精度最高，适合对质量要求高的场景</p>
+                            <div class="model-tags">
+                                <span class="tag tag-quality-high"><i class="fas fa-crown"></i> 最高质量</span>
+                                <span class="tag tag-slow"><i class="fas fa-hourglass-half"></i> 速度较慢</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="model-option">
+                        <input type="radio" name="model_type" value="lightweight">
+                        <div class="model-card">
+                            <div class="model-header">
+                                <i class="fas fa-feather-alt"></i>
+                                <span class="model-name">轻量化模型</span>
+                            </div>
+                            <p class="model-desc">经过剪枝优化，速度最快</p>
+                            <div class="model-tags">
+                                <span class="tag tag-fast"><i class="fas fa-bolt"></i> 极速处理</span>
+                                <span class="tag tag-efficiency"><i class="fas fa-leaf"></i> 高效节能</span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+                    <i class="fas fa-magic"></i> 开始抠图
+                </button>
+            </div>
+        </form>
+
+        <div class="upload-tips">
+            <h3><i class="fas fa-lightbulb"></i> 使用提示：</h3>
+            <ul>
+                <li>建议使用正面清晰的人像照片，抠图效果更好</li>
+                <li>背景与人像对比度越高，抠图效果越精确</li>
+                <li>处理时间通常为 5-15 秒，请耐心等待</li>
+                <li>结果图片可以下载</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .upload-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .upload-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .upload-card:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #4a6cf7, #6b8aff, #8aa9ff);
+    }
+
+    .upload-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .upload-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 32px;
+    }
+
+    .upload-title {
+        font-size: 2.2rem;
+        color: #1a1f36;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .upload-subtitle {
+        font-size: 1.1rem;
+        color: #6b7280;
+        margin-bottom: 20px;
+    }
+
+    .upload-area {
+        border: 3px dashed #e5e7eb;
+        border-radius: 16px;
+        padding: 60px 30px;
+        text-align: center;
+        background: #f8fafc;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+        cursor: pointer;
+    }
+
+    .upload-area:hover, .upload-area.dragover {
+        border-color: #4a6cf7;
+        background: rgba(74, 108, 247, 0.02);
+    }
+
+    .upload-preview {
+        margin-bottom: 30px;
+    }
+
+    .upload-preview i {
+        font-size: 60px;
+        color: #9ca3af;
+        margin-bottom: 15px;
+    }
+
+    .upload-preview p {
+        color: #6b7280;
+        font-size: 1.1rem;
+    }
+
+    .btn-select {
+        background: white;
+        color: #4a6cf7;
+        border: 2px solid #4a6cf7;
+        padding: 12px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-select:hover {
+        background: rgba(74, 108, 247, 0.05);
+        transform: translateY(-2px);
+    }
+
+    .upload-info {
+        margin-bottom: 30px;
+    }
+
+    .file-info {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 20px;
+        border: 2px solid #e5e7eb;
+    }
+
+    .file-thumbnail {
+        width: 100px;
+        height: 100px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-right: 20px;
+        flex-shrink: 0;
+    }
+
+    .file-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .file-details {
+        flex: 1;
+    }
+
+    .file-details h4 {
+        color: #1a1f36;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+    }
+
+    .file-details p {
+        color: #6b7280;
+        margin-bottom: 15px;
+    }
+
+    .btn-change {
+        background: transparent;
+        color: #4a6cf7;
+        border: 1px solid #4a6cf7;
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-change:hover {
+        background: rgba(74, 108, 247, 0.05);
+    }
+
+    .upload-options {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+
+    .upload-options h3 {
+        color: #1a1f36;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.3rem;
+    }
+
+    .model-selector {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .model-option {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .model-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .model-card {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .model-option:hover .model-card {
+        border-color: #4a6cf7;
+        background: rgba(74, 108, 247, 0.02);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.1);
+    }
+
+    .model-option input[type="radio"]:checked + .model-card {
+        border-color: #4a6cf7;
+        background: linear-gradient(135deg, rgba(74, 108, 247, 0.05) 0%, rgba(74, 108, 247, 0.1) 100%);
+        box-shadow: 0 8px 25px rgba(74, 108, 247, 0.2);
+    }
+
+    .model-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .model-header i {
+        font-size: 1.8rem;
+        color: #4a6cf7;
+    }
+
+    .model-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1a1f36;
+    }
+
+    .model-desc {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .model-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .tag-speed {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    .tag-quality {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .tag-quality-high {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8b5cf6;
+    }
+
+    .tag-slow {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .tag-fast {
+        background: rgba(6, 182, 212, 0.1);
+        color: #06b6d4;
+    }
+
+    .tag-efficiency {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+    }
+
+    .option-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .option-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #1a1f36;
+        font-weight: 500;
+    }
+
+    .option-label input {
+        margin-right: 12px;
+    }
+
+    .form-actions {
+        text-align: center;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6cf7 0%, #6b8aff 100%);
+        color: white;
+        border: none;
+        padding: 16px 48px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-width: 200px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(74, 108, 247, 0.4);
+    }
+
+    .btn-primary:disabled {
+        background: #e5e7eb;
+        color: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .upload-tips {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .upload-tips h3 {
+        color: #1a1f36;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .upload-tips ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .upload-tips li {
+        color: #6b7280;
+        margin-bottom: 10px;
+        padding-left: 24px;
+        position: relative;
+    }
+
+    .upload-tips li:before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #4a6cf7;
+        font-weight: bold;
+    }
+
+    /* 消息提示样式 */
+    .messages {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        z-index: 1000;
+        max-width: 400px;
+    }
+
+    .message {
+        background: white;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideIn 0.3s ease;
+        border-left: 4px solid;
+    }
+
+    .message.success {
+        border-left-color: #10b981;
+    }
+
+    .message.error {
+        border-left-color: #ef4444;
+    }
+
+    .message i {
+        font-size: 20px;
+    }
+
+    .message.success i {
+        color: #10b981;
+    }
+
+    .message.error i {
+        color: #ef4444;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* 加载动画 */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+        display: none;
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4a6cf7;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+    }
+
+    .loading-text {
+        color: #1a1f36;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .upload-card {
+            padding: 30px 20px;
+        }
+
+        .upload-title {
+            font-size: 1.8rem;
+        }
+
+        .upload-area {
+            padding: 40px 20px;
+        }
+
+        .file-info {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .file-thumbnail {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .upload-title {
+            font-size: 1.6rem;
+        }
+
+        .upload-subtitle {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const uploadPreview = document.getElementById('upload-preview');
+        const uploadInfo = document.getElementById('upload-info');
+        const uploadOptions = document.getElementById('upload-options');
+        const previewImage = document.getElementById('preview-image');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const selectBtn = document.getElementById('select-btn');
+        const changeBtn = document.getElementById('change-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const form = document.getElementById('upload-form');
+
+        // 选择文件
+        selectBtn.addEventListener('click', () => imageInput.click());
+        changeBtn.addEventListener('click', () => imageInput.click());
+
+        // 拖拽上传功能
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            uploadArea.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            uploadArea.classList.remove('dragover');
+        }
+
+        // 处理文件拖放
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        // 处理文件选择
+        imageInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                handleFile(this.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            // 验证文件类型
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp'];
+            if (!allowedTypes.includes(file.type)) {
+                showMessage('请选择图片文件（JPG、PNG、GIF、BMP）', 'error');
+                return;
+            }
+
+            // 验证文件大小（5MB）
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('文件大小不能超过 5MB', 'error');
+                return;
+            }
+
+            // 显示文件信息
+            uploadPreview.style.display = 'none';
+            uploadInfo.style.display = 'block';
+            uploadOptions.style.display = 'block'; // 显示模型选择区域
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+
+            // 预览图片
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // 启用提交按钮
+            submitBtn.disabled = false;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 显示消息提示
+        function showMessage(text, type = 'info') {
+            const messagesDiv = document.querySelector('.messages') || createMessagesContainer();
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+
+            const icon = type === 'success' ?
+                '<i class="fas fa-check-circle"></i>' :
+                '<i class="fas fa-exclamation-circle"></i>';
+
+            messageDiv.innerHTML = `
+                ${icon}
+                <span>${text}</span>
+            `;
+
+            messagesDiv.appendChild(messageDiv);
+
+            // 3秒后移除消息
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 3000);
+        }
+
+        function createMessagesContainer() {
+            const container = document.createElement('div');
+            container.className = 'messages';
+            document.body.appendChild(container);
+            return container;
+        }
+
+        // 表单提交处理
+        form.addEventListener('submit', function(e) {
+            if (!imageInput.files.length) {
+                e.preventDefault();
+                showMessage('请选择要上传的图片', 'error');
+                return;
+            }
+
+            // 显示加载动画
+            const loadingOverlay = createLoadingOverlay();
+            document.body.appendChild(loadingOverlay);
+        });
+
+        function createLoadingOverlay() {
+            const overlay = document.createElement('div');
+            overlay.className = 'loading-overlay';
+            overlay.style.display = 'flex';
+
+            overlay.innerHTML = `
+                <div class="loading-spinner"></div>
+                <div class="loading-text">正在处理图片，请稍候...</div>
+            `;
+
+            return overlay;
+        }
+    });
+</script>
+{% endblock %}
+[file content end]
+
