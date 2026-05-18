@@ -12,7 +12,7 @@
 
 
 
-# 🌞Results on PPM-100
+# Results on PPM-100
 
 ### 剪枝前后模型对比
 
